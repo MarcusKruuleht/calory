@@ -5,7 +5,7 @@ const StorageCtrl = (function(){
 		storeItem: function(item){
 			let items;
 			//check if any items in 1s
-			if(localStorage. getItem('items') === null){
+			if (localStorage. getItem('items') === null){
 				items = [];
 				// push new item
 				items.push(item);
@@ -25,7 +25,7 @@ const StorageCtrl = (function(){
 			if(localStorage.getItem('items') === null){
 				items = [];
 			} else {
-				item = JSON.parse(localStorage.getItem('items'));
+				items = JSON.parse(localStorage.getItem('items'));
 			}
 			return items;
 		}
@@ -121,7 +121,7 @@ const UICtrl = (function(){
 			});
 
 			// insert list items
-			document.querySelector(UISelectors.itemList).innerHTML = html;
+			document.querySelector("#item-list").innerHTML = html;
 
 		},
 		getSelectors: function(){
@@ -197,6 +197,11 @@ const App = (function(ItemCtrl, StorageCtrl, UICtrl){
 	const getItemsFromStorage = function(){
 		// get items from storage
 		const items = StorageCtrl.getItemsFromStorage()
+		items.forEach(function(item){
+			ItemCtrl.addItem(item['name'], item['calories'])
+		})
+		const totalCalories = ItemCtrl.getTotalCalories();
+		UICtrl.showTotalCalories(totalCalories);
 		// populate item list
 		UICtrl.populateItemList(items)
 	}
